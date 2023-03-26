@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CollectableControl : MonoBehaviour
 {
@@ -10,8 +11,5 @@ public class CollectableControl : MonoBehaviour
     void Update()
     {
         coinCountDisplay.GetComponent<TMPro.TextMeshProUGUI>().text = "" + coinCount;
-        /* TMPro.TextMeshProUGUI
-         * TextMeshProUGUI
-         * */
     }
 }

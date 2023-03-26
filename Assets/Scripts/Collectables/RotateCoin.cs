@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RotateCoin : MonoBehaviour
 {
-    float rotateSpeed = 0.75f;
+    float rotateSpeed = 3f;
 
     void Update()
     {
