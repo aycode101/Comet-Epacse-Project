@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             if (this.gameObject.transform.position.x < LevelBoundary.rightSide)
             {
