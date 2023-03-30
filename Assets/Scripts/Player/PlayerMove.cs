@@ -6,6 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 10;
     public float leftRightSpeed = 50;
+    public bool isJumping = false;
 
     // Update is called once per frame
     void Update()
@@ -29,5 +30,13 @@ public class PlayerMove : MonoBehaviour
                 transform.Translate(Vector3.left * Time.deltaTime * leftRightSpeed * -1);
             }
         }
+        //if (input.getkey(keycode.w) || input.getkey(keycode.uparrow) || input.getkey(keycode.space))
+        //{
+        //    if (isjumping == false)
+        //    {
+        //        isjumping = true;
+        //        playerobject.getcomponent<animator>().play("jump");
+        //    }
+        //}
     }
 }
