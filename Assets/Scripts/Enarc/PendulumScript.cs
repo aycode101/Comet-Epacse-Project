@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PendulumScript : MonoBehaviour
 {
-    public float speed = 1.5f;
+    public float speed = 4f;
     public float limit = 75f;
     public bool randomStart = false;
     private float random = 0;
@@ -14,7 +14,6 @@ public class PendulumScript : MonoBehaviour
             random = Random.Range(0f, 1f);
     }
 
-    // Update is called once per frame
     void Update()
     {
         float angle = limit * Mathf.Sin(Time.time * random * speed);

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// NOTE: obstacles need a Box Collider component
+
 public class ObstacleCollision : MonoBehaviour
 {
     public GameObject player;
