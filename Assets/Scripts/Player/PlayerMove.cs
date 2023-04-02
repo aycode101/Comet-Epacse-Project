@@ -7,6 +7,7 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 10;
     public float leftRightSpeed = 50;
     public bool isJumping = false;
+    private float jumpVelocity;
 
     // Update is called once per frame
     void Update()
@@ -30,13 +31,24 @@ public class PlayerMove : MonoBehaviour
                 transform.Translate(Vector3.left * Time.deltaTime * leftRightSpeed * -1);
             }
         }
-        //if (input.getkey(keycode.w) || input.getkey(keycode.uparrow) || input.getkey(keycode.space))
-        //{
-        //    if (isjumping == false)
-        //    {
-        //        isjumping = true;
-        //        playerobject.getcomponent<animator>().play("jump");
-        //    }
-        //}
+
+        jumpVelocity += -18f * Time.deltaTime;//increased the gravity so that the player falls faster
+        
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space))
+        {
+            isJumping = true;
+            jumpVelocity = moveSpeed;
+        }
+        
+        if (isJumping == true)
+        {
+            transform.Translate(new Vector3(0, jumpVelocity, 0) * Time.deltaTime);
+        }
+        
+    }
+    //stop jumping when the player has collided with the floor
+    private void OnTriggerEnter(Collider floor)
+    {
+        isJumping = false;
     }
 }
