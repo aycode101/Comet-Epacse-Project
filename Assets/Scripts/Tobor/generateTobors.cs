@@ -1,28 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using "GenerateLevel.cs";
 
 public class generateTobors : MonoBehaviour
 {
-    public ToborScript curTobor;
-    public List<ToborScript> currentTobors;
-    private float screenWidthInPoints;
+    //public 
+    public GameObject modelTobor;
+    public GameObject eric;
+    public List<GameObject> curTobors;
+    
+    public float objPositionZ;
+    public float maxZDistance = 35.0f;
+    public float minZDistance = 25.0f;
 
-    public float objMinDistance = 5.0f;
-    public float objMaxDistance = 10.0f;
 
-    public float objMinY  = -1.4f;
-    public float objMaxY = 1.4f;
-
-    public float objMinRotation = -45.0f;
-    public float objMaxRotation =  45.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        screenWidthInPoints = 2.0f * Camera.main.orthographicSize * Camera.main.aspect;
-        Debug.Log(screenWidthInPoints);
-        StartCoroutine(GeneratorCheck()); // 
+        modelTobor.transform.position = new Vector3(0, 0, 10);
+        StartCoroutine(GeneratorCheck()); //
+        StartCoroutine(DestroyTobor());
     }
 
     // Update is called once per frame
@@ -34,43 +33,30 @@ public class generateTobors : MonoBehaviour
     {
         while (true)
         {
-            GenerateTobor();
-            float wait = Random.Range(10, 30);
+            AddTobor();
+            float wait = (Time.deltaTime * 10) + Random.Range(3.0f, 3.5f);
             yield return new WaitForSeconds(wait);
         }
     }
 
-    void AddTobor(float lastObjectX) {
-        ToborScript newTobor = Instantiate(curTobor);
-        float objPositionX = lastObjectX + Random.Range(objMinDistance, objMaxDistance);
-        newTobor.transform.position = new Vector3(objPositionX, 0, 0);
+    void AddTobor() {
+        GameObject newTobor = (GameObject)Instantiate(modelTobor);
+        
+        objPositionZ = Random.Range(minZDistance, maxZDistance);
+        newTobor.transform.position = new Vector3(0, 1.6f, eric.transform.position.z + objPositionZ);
 
-        float rotation = Random.Range(objMaxRotation, objMaxRotation);
-        newTobor.transform.rotation = Quaternion.Euler(Vector3.forward * rotation);
-
-        currentTobors.Add(newTobor);
+        curTobors.Add(newTobor);
     }
 
-    void GenerateTobor() {
-        float playerX = transform.position.x;
-        float removeObjectX = playerX - screenWidthInPoints;
-        float addObjectX = playerX + screenWidthInPoints;
-        float farthestObjectX = 0;
-
-        List<ToborScript> toborsToRemove = new List<ToborScript>();
-        foreach (var obj in currentTobors) {
-            float objX = obj.transform.position.x;
-            farthestObjectX = Mathf.Max(farthestObjectX, objX);
-            if (objX < removeObjectX) {
-                toborsToRemove.Add(obj);
+    private IEnumerator DestroyTobor()
+    {
+        yield return new WaitForSeconds(2);
+        foreach (var deleteTobor in curTobors){
+            if (deleteTobor.transform.position.z < (eric.transform.position.z - 20))
+            {
+                curTobors.Remove(deleteTobor);
+                Destroy(deleteTobor);
             }
-        }
-        foreach (var obj in toborsToRemove) {
-            currentTobors.Remove(obj);
-            Destroy(obj);
-        }
-        if (farthestObjectX < addObjectX) {
-            AddTobor(farthestObjectX);
         }
     }
 }

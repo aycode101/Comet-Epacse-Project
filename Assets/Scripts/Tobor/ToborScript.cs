@@ -6,6 +6,7 @@ public class ToborScript : MonoBehaviour
 {
     private bool right;
     public float toborSpeed = 70;
+    //private bool move = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,14 +21,16 @@ public class ToborScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!(transform.position.x > (LevelBoundary.leftSide)) || !(transform.position.x < LevelBoundary.rightSide))
+        {
+            right = !right;
+        }
         if(right){
-            transform.Translate(Vector3.right * Time.deltaTime * toborSpeed);
+            transform.Translate(Vector3.down * Time.deltaTime * toborSpeed);
         }
         else{
-            transform.Translate(Vector3.left * Time.deltaTime * toborSpeed);
+            transform.Translate(Vector3.up * Time.deltaTime * toborSpeed);
         }
-        //if((this.gameObject.transform.position.x < LevelBoundary.leftSide) || (this.gameObject.transform.position.x > LevelBoundary.rightSide)){
-        //    Destroy(this);
-        //}
     }
+    
 }
