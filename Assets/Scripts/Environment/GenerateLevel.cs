@@ -27,6 +27,9 @@ public class GenerateLevel : MonoBehaviour
         // Generate new section
         sectionNumber = Random.Range(0, sections.Length);
         Instantiate(sections[sectionNumber], new Vector3(0, 0, zPos), Quaternion.identity);
+
+        // generate obstacles here?
+
         zPos += SECTION_LENGTH;
 
         if (sectionsGenerated <= NUM_INTIAL_SECTIONS)

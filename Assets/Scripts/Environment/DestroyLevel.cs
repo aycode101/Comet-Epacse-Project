@@ -6,8 +6,8 @@ public class DestroyLevel : MonoBehaviour
 {
     public string sectionName;
     
-    const int NUM_INITIAL_SECTIONS = 10;
-    int sectionsToDestroy = NUM_INITIAL_SECTIONS;
+    //const int NUM_INITIAL_SECTIONS = 10;
+    //int sectionsToDestroy = NUM_INITIAL_SECTIONS;
 
     void Start()
     {
