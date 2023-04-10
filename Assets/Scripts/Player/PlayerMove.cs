@@ -7,7 +7,14 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 10;
     public float leftRightSpeed = 50;
     public bool isJumping = false;
+    public GameObject characterModel;
     private float jumpVelocity;
+    private float playerGroundYPos;
+
+    void Start ()
+    {
+        playerGroundYPos = this.transform.position.y;
+    }
 
     // Update is called once per frame
     void Update()
@@ -32,23 +39,31 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        jumpVelocity += -18f * Time.deltaTime;//increased the gravity so that the player falls faster
+        jumpVelocity += -18f * Time.deltaTime; //increased the gravity so that the player falls faster
         
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space))
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) && !isJumping)
         {
             isJumping = true;
             jumpVelocity = moveSpeed;
+            characterModel.GetComponent<Animator>().Play("Jump");
         }
-        
+
         if (isJumping == true)
         {
             transform.Translate(new Vector3(0, jumpVelocity, 0) * Time.deltaTime);
         }
-        
+
+        if (this.transform.position.y <= playerGroundYPos)
+        {
+            characterModel.GetComponent<Animator>().Play("Standard Run");
+            isJumping = false;
+        }
     }
+
     //stop jumping when the player has collided with the floor
-    private void OnTriggerEnter(Collider floor)
-    {
-        isJumping = false;
-    }
+    //private void OnTriggerEnter(Collider floor)
+    //{
+    //    isJumping = false;
+    //    characterModel.GetComponent<Animator>().Play("Standard Run");
+    //}
 }
