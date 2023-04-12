@@ -7,13 +7,14 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 10;
     public float leftRightSpeed = 50;
     public bool isJumping = false;
-    public GameObject characterModel;
+    private GameObject characterModel;
     private float jumpVelocity;
     private float playerGroundYPos;
 
     void Start ()
     {
         playerGroundYPos = this.transform.position.y;
+        characterModel = this.transform.Find("Ch42_nonPBR@Standard Run").gameObject;
     }
 
     // Update is called once per frame
@@ -59,11 +60,4 @@ public class PlayerMove : MonoBehaviour
             isJumping = false;
         }
     }
-
-    //stop jumping when the player has collided with the floor
-    //private void OnTriggerEnter(Collider floor)
-    //{
-    //    isJumping = false;
-    //    characterModel.GetComponent<Animator>().Play("Standard Run");
-    //}
 }
