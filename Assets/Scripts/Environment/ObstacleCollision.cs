@@ -6,13 +6,14 @@ using UnityEngine;
 
 public class ObstacleCollision : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
     private GameObject characterModel;
     private GameObject mainCamera;
     private float playerGroundYPos;
 
     void Start()
     {
+        player = GameObject.Find("Player"); 
         characterModel = player.transform.Find("Ch42_nonPBR@Standard Run").gameObject;
         mainCamera = player.transform.Find("Main Camera").gameObject;
         playerGroundYPos = player.transform.position.y;

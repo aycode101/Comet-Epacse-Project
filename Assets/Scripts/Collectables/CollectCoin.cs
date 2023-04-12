@@ -8,9 +8,13 @@ public class CollectCoin : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        coinFX.Play();
-        CollectableControl.coinCount += 1;
+        // Only execute if collided with Player object (has tag "Player")
+        if (other.gameObject.tag == "Player")
+        {
+            coinFX.Play();
+            CollectableControl.coinCount += 1;
 
-        this.gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
+        }
     }
 }
