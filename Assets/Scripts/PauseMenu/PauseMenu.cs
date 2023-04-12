@@ -44,12 +44,16 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
+
+        CollectableControl.coinCount = 0;
     }
 
     public void LoadMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
+
+        CollectableControl.coinCount = 0;
     }
 
     public void QuitGame()
