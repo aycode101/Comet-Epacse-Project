@@ -13,26 +13,30 @@ public class ObstacleCollision : MonoBehaviour
 
     void Start()
     {
-        playerGroundYPos = player.transform.position.y;
         characterModel = player.transform.Find("Ch42_nonPBR@Standard Run").gameObject;
         mainCamera = player.transform.Find("Main Camera").gameObject;
+        playerGroundYPos = player.transform.position.y;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        // Prevent collision from triggering infinitely
-        this.gameObject.GetComponent<BoxCollider>().enabled = false;
-        
-        // Make player stop and fall over
-        player.GetComponent<PlayerMove>().enabled = false;
-        characterModel.GetComponent<Animator>().Play("Stumble Backwards");
-
-        // Make player model fall to the ground if the collision was in mid-air
-        while (player.transform.position.y > playerGroundYPos)
+        // Only execute if collided with Player object (has tag "Player")
+        if (other.gameObject.tag == "Player")
         {
-            player.transform.Translate(new Vector3(0, -10f, 0) * Time.deltaTime);
-        }
+            // Prevent collision from triggering infinitely
+            this.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-        mainCamera.GetComponent<Animator>().enabled = true;
+            // Make player stop and fall over
+            player.GetComponent<PlayerMove>().enabled = false;
+            characterModel.GetComponent<Animator>().Play("Stumble Backwards");
+
+            // Make player model fall to the ground if the collision was in mid-air
+            while (player.transform.position.y > playerGroundYPos)
+            {
+                player.transform.Translate(new Vector3(0, -10f, 0) * Time.deltaTime);
+            }
+
+            mainCamera.GetComponent<Animator>().enabled = true;
+        }
     }
 }
