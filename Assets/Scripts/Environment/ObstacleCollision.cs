@@ -7,13 +7,15 @@ using UnityEngine;
 public class ObstacleCollision : MonoBehaviour
 {
     public GameObject player;
-    public GameObject characterModel;
-    public GameObject mainCamera;
+    private GameObject characterModel;
+    private GameObject mainCamera;
     private float playerGroundYPos;
 
     void Start()
     {
         playerGroundYPos = player.transform.position.y;
+        characterModel = player.transform.Find("Ch42_nonPBR@Standard Run").gameObject;
+        mainCamera = player.transform.Find("Main Camera").gameObject;
     }
 
     void OnTriggerEnter(Collider other)
