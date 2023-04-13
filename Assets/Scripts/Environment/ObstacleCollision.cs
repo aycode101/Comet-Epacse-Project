@@ -10,6 +10,7 @@ public class ObstacleCollision : MonoBehaviour
     private GameObject characterModel;
     private GameObject mainCamera;
     private float playerGroundYPos;
+    public GameObject levelControl;
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class ObstacleCollision : MonoBehaviour
             }
 
             mainCamera.GetComponent<Animator>().enabled = true;
+            levelControl.GetComponent<EndRunSequence>().enabled = true;
         }
     }
 }
