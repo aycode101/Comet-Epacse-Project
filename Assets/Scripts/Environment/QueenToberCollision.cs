@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 // NOTE: obstacles need a Box Collider component
 // NOTE: attach this script to Queen Tobors only
@@ -9,6 +12,7 @@ using UnityEngine;
 public class QueenToborCollision : MonoBehaviour
 {
     public GameObject player;
+    public TextAsset wordFile;
     private GameObject characterModel;
     //private GameObject mainCamera;
     private float playerGroundYPos;
@@ -23,13 +27,17 @@ public class QueenToborCollision : MonoBehaviour
         //mainCamera = player.transform.Find("Main Camera").gameObject;
         playerGroundYPos = player.transform.position.y;
 
-        // GENERATE WORD ##############################
-        // Ideas: txt file with a list of words to randomly choose from
-
+        // Generate word: txt file with a list of words to randomly choose from
+        string[] words = Regex.Split(wordFile.text, "\n");
+        word = words[Random.Range(0, words.Length)].ToUpper();
+        
         // Compute anadrome of word
         char[] charArr = word.ToCharArray();
         Array.Reverse(charArr);
         anadrome = new string(charArr);
+
+        Console.WriteLine("Chosen word: " + word);
+        Console.WriteLine("Anadrome: " + anadrome);
     }
 
     void OnTriggerEnter(Collider other)
