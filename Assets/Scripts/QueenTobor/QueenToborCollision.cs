@@ -19,6 +19,7 @@ public class QueenToborCollision : MonoBehaviour
     private static string word;
     private static string anadrome;
     private string userInput = "";
+    private GameObject canvas;
 
     void Start()
     {
@@ -26,11 +27,12 @@ public class QueenToborCollision : MonoBehaviour
         characterModel = player.transform.Find("Ch42_nonPBR@Standard Run").gameObject;
         //mainCamera = player.transform.Find("Main Camera").gameObject;
         playerGroundYPos = player.transform.position.y;
+        canvas = GameObject.Find("Canvas");
 
         // Generate word: txt file with a list of words to randomly choose from
         string[] words = Regex.Split(wordFile.text, "\n");
         word = words[Random.Range(0, words.Length)].ToUpper();
-        
+
         // Compute anadrome of word
         char[] charArr = word.ToCharArray();
         Array.Reverse(charArr);
@@ -45,27 +47,8 @@ public class QueenToborCollision : MonoBehaviour
         // Only execute if collided with Player object (has tag "Player")
         if (other.gameObject.tag == "Player")
         {
-            // Prevent collision from triggering infinitely
-            this.gameObject.GetComponent<BoxCollider>().enabled = false;
-
-            // Make player stop and stand idle
-            player.GetComponent<PlayerMove>().enabled = false;
-            characterModel.GetComponent<Animator>().Play("Sad Idle");
-
-            // Make player model fall to the ground if the collision was in mid-air
-            while (player.transform.position.y > playerGroundYPos)
-            {
-                player.transform.Translate(new Vector3(0, -10f, 0) * Time.deltaTime);
-            }
-
             // Start Queen Tobor puzzle
-            StartCoroutine(Puzzle());
-
-            // Resume running after player solves puzzle
-            this.gameObject.GetComponent<BoxCollider>().enabled = true;
-            player.GetComponent<PlayerMove>().enabled = true;
-            characterModel.GetComponent<Animator>().Play("Standard Run");
-
+            StartCoroutine(PuzzleSequence());
         }
     }
 
@@ -78,17 +61,33 @@ public class QueenToborCollision : MonoBehaviour
     // Returns if user input is equal to the anadrome
     private bool InputIsCorrect(string input)
     {
-        return String.Equals(input, anadrome, StringComparison.InvariantCultureIgnoreCase);
+        Debug.Log("user input = " + userInput + "; correct answer = " + anadrome);
+        return String.Equals(userInput, anadrome, StringComparison.InvariantCultureIgnoreCase);
     }
 
-    private IEnumerator Puzzle()
+    private IEnumerator PuzzleSequence()
     {
+        // Prevent collision from triggering infinitely
+        this.gameObject.GetComponent<BoxCollider>().enabled = false;
+
+        // Make player stop and stand idle
+        player.GetComponent<PlayerMove>().enabled = false;
+        characterModel.GetComponent<Animator>().Play("Sad Idle");
+
+        // Make player model fall to the ground if the collision was in mid-air
+        while (player.transform.position.y > playerGroundYPos)
+        {
+            player.transform.Translate(new Vector3(0, -10f, 0) * Time.deltaTime);
+        }
+
+        yield return null;
+
         // Activate puzzle screen
+        canvas.transform.Find("PuzzlePrompt").gameObject.SetActive(true);
+        canvas.transform.Find("PuzzleWord").gameObject.SetActive(true);
+        canvas.transform.Find("PuzzleInputField").gameObject.SetActive(true);
+
         GameObject.Find("Canvas/PuzzleWord").GetComponent<TMPro.TextMeshProUGUI>().text = "" + word;
-        
-        GameObject.Find("Canvas/PuzzlePrompt").SetActive(true);
-        GameObject.Find("Canvas/PuzzleWord").SetActive(true);
-        GameObject.Find("Canvas/PuzzleInputField").SetActive(true);
 
         yield return null;
 
@@ -106,7 +105,12 @@ public class QueenToborCollision : MonoBehaviour
         // Call function to make queen tobor leave
         // - this.GetComponent<QUEEN_TOBOR_MOVEMENT_SCRIPT>().FUNCTION_NAME();
 
-        yield return new WaitForSeconds(5); // Wait for queen tobor to leave
+        yield return new WaitForSeconds(3); // Wait for queen tobor to leave
+
+        // Resume running after player solves puzzle
+        this.gameObject.GetComponent<BoxCollider>().enabled = true;
+        player.GetComponent<PlayerMove>().enabled = true;
+        characterModel.GetComponent<Animator>().Play("Standard Run");
 
         yield return null;
     }
