@@ -11,27 +11,30 @@ using Random = UnityEngine.Random;
 
 public class QueenToborCollision : MonoBehaviour
 {
-    public GameObject player;
     public TextAsset wordFile;
+    //public Behaviour createSection;
+    //public Behaviour destroySection;
+
+    private GameObject player;
     private GameObject characterModel;
-    //private GameObject mainCamera;
     private float playerGroundYPos;
+    private GameObject canvas;
+    private float width;
+
     private static string word;
     private static string anadrome;
-    private string userInput = "";
-    private GameObject canvas;
 
     void Start()
     {
         player = GameObject.Find("Player");
         characterModel = player.transform.Find("Ch42_nonPBR@Standard Run").gameObject;
-        //mainCamera = player.transform.Find("Main Camera").gameObject;
         playerGroundYPos = player.transform.position.y;
         canvas = GameObject.Find("Canvas");
+        width = this.GetComponent<Renderer>().bounds.size.x;
 
         // Generate word: txt file with a list of words to randomly choose from
         string[] words = Regex.Split(wordFile.text, "\n");
-        word = words[Random.Range(0, words.Length)].ToUpper();
+        word = words[Random.Range(0, words.Length)].ToUpper().TrimEnd('\r', '\n', ' '); ;
 
         // Compute anadrome of word
         char[] charArr = word.ToCharArray();
@@ -52,17 +55,11 @@ public class QueenToborCollision : MonoBehaviour
         }
     }
 
-    // Updates userInput
-    public void getInput(string s)
-    {
-        userInput = s;
-    }
-
     // Returns if user input is equal to the anadrome
-    private bool InputIsCorrect(string input)
+    private bool InputIsCorrect()
     {
-        Debug.Log("user input = " + userInput + "; correct answer = " + anadrome);
-        return String.Equals(userInput, anadrome, StringComparison.InvariantCultureIgnoreCase);
+        string input = canvas.transform.Find("PuzzleInputField").GetComponent<TMPro.TMP_InputField>().text;
+        return String.Equals(input, anadrome, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private IEnumerator PuzzleSequence()
@@ -80,6 +77,10 @@ public class QueenToborCollision : MonoBehaviour
             player.transform.Translate(new Vector3(0, -10f, 0) * Time.deltaTime);
         }
 
+        // Pause scripts that generate/destroy sections
+        //createSection.enabled = false;
+        //destroySection.enabled = false;
+
         yield return null;
 
         // Activate puzzle screen
@@ -92,7 +93,7 @@ public class QueenToborCollision : MonoBehaviour
         yield return null;
 
         // Keeps looping until user inputs correct answer
-        while (!InputIsCorrect(userInput))
+        while (!InputIsCorrect())
         {
             yield return null;
         }
@@ -102,16 +103,34 @@ public class QueenToborCollision : MonoBehaviour
         GameObject.Find("Canvas/PuzzleWord").SetActive(false);
         GameObject.Find("Canvas/PuzzleInputField").SetActive(false);
 
-        // Call function to make queen tobor leave
-        // - this.GetComponent<QUEEN_TOBOR_MOVEMENT_SCRIPT>().FUNCTION_NAME();
+        // Move Queen tobor out of the way
+        float rightSide = transform.position.x + width;
+        while (rightSide > LevelBoundary.leftSide)
+        {
+            transform.Translate(Vector3.up * Time.deltaTime * 40);
+            rightSide = transform.position.x + width;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
 
-        yield return new WaitForSeconds(3); // Wait for queen tobor to leave
+        yield return null;
 
         // Resume running after player solves puzzle
-        this.gameObject.GetComponent<BoxCollider>().enabled = true;
         player.GetComponent<PlayerMove>().enabled = true;
         characterModel.GetComponent<Animator>().Play("Standard Run");
 
-        yield return null;
+        // Resume scripts that generate/destroy sections
+        //createSection.enabled = true;
+        //destroySection.enabled = true;
+
+        yield return new WaitForSeconds(5);
+
+        Destroy(gameObject);
+        // If QueenTobors are generated through script:
+        /*
+         * if (transform.name == "QueenTobor(Clone)")
+        {
+            Destroy(gameObject);
+        }
+         */
     }
 }
