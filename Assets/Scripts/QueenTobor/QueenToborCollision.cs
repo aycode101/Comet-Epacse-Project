@@ -12,8 +12,7 @@ using Random = UnityEngine.Random;
 public class QueenToborCollision : MonoBehaviour
 {
     public TextAsset wordFile;
-    //public Behaviour createSection;
-    //public Behaviour destroySection;
+    public AudioSource coinFX;
 
     private GameObject player;
     private GameObject characterModel;
@@ -77,17 +76,12 @@ public class QueenToborCollision : MonoBehaviour
             player.transform.Translate(new Vector3(0, -10f, 0) * Time.deltaTime);
         }
 
-        // Pause scripts that generate/destroy sections
-        //createSection.enabled = false;
-        //destroySection.enabled = false;
-
         yield return null;
 
         // Activate puzzle screen
         canvas.transform.Find("PuzzlePrompt").gameObject.SetActive(true);
         canvas.transform.Find("PuzzleWord").gameObject.SetActive(true);
         canvas.transform.Find("PuzzleInputField").gameObject.SetActive(true);
-
         GameObject.Find("Canvas/PuzzleWord").GetComponent<TMPro.TextMeshProUGUI>().text = "" + word;
 
         yield return null;
@@ -103,6 +97,13 @@ public class QueenToborCollision : MonoBehaviour
         GameObject.Find("Canvas/PuzzleWord").SetActive(false);
         GameObject.Find("Canvas/PuzzleInputField").SetActive(false);
 
+        // Reward player with coins
+        int reward = word.Length;
+        canvas.transform.Find("PuzzleReward").gameObject.SetActive(true);
+        GameObject.Find("Canvas/PuzzleReward").GetComponent<TMPro.TextMeshProUGUI>().text = "+ " + reward + " Comet Cash";
+        CollectableControl.coinCount += reward;
+        coinFX.Play();
+
         // Move Queen tobor out of the way
         float rightSide = transform.position.x + width;
         while (rightSide > LevelBoundary.leftSide)
@@ -112,15 +113,14 @@ public class QueenToborCollision : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        yield return null;
+        yield return new WaitForSeconds(0.5f);
+
+        // Finalize adding coin reward to coin count
+        canvas.transform.Find("PuzzleReward").gameObject.SetActive(false);
 
         // Resume running after player solves puzzle
         player.GetComponent<PlayerMove>().enabled = true;
         characterModel.GetComponent<Animator>().Play("Standard Run");
-
-        // Resume scripts that generate/destroy sections
-        //createSection.enabled = true;
-        //destroySection.enabled = true;
 
         yield return new WaitForSeconds(5);
 
