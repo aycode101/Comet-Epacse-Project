@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,32 +9,66 @@ public class FollowPlayer : MonoBehaviour
     private Transform playerPosition;
     private PlayerMove playerMovement;
 
+    private float playerGroundYPos;
     private float speed;
-    private float gapDistance = 3f;
-    private Vector3 direction;
 
+    private float horizontalGap = 3f;
+    private float verticalGap = -.3f;
+    private float gameOverGap = 1.5f;
+    private Vector3 horizontalDirection;
+    private Vector3 verticalDirection;
+    private float horizontalDistance;
+    private float verticalDistance;
 
     void Start()
     {
         // Get PlayerMove and Transform components from GameObject (set to Player)
         playerMovement = playerObject.GetComponent<PlayerMove>();
         playerPosition = playerObject.GetComponent<Transform>();
+        playerGroundYPos = playerPosition.position.y;
     }
 
     void Update()
     {
-        // Turn Temoc to face the player at all times
-        direction = (playerPosition.position - transform.position).normalized;
-        //transform.LookAt(playerPosition.position);
+        // Get directions from Temoc to the player
+        horizontalDirection = (playerPosition.position - transform.position).normalized;
+        verticalDirection = horizontalDirection; 
+        horizontalDirection.y = 0;
+        verticalDirection.x = 0;
+        verticalDirection.z = 0;
 
-        // Maintain a consistent gap between Temoc and the player
-        if ((transform.position - playerPosition.position).magnitude > gapDistance)
+        // Maintain constant gap between Temoc and the player
+        horizontalDistance = Math.Abs(transform.position.x - playerPosition.position.x) + Math.Abs(transform.position.z - playerPosition.position.z);
+        if (horizontalDistance > horizontalGap)
         {
-            transform.Translate(direction * Time.deltaTime * speed);
-            //transform.Translate(0.0f, 0.0f, Time.deltaTime * speed);
+            transform.Translate(horizontalDirection * Time.deltaTime * speed);
+        }
+
+        verticalDistance = transform.position.y - playerPosition.position.y;
+        if ((verticalDistance > verticalGap + 0.05) || (verticalDistance < verticalGap - 0.05))
+        {
+            transform.Translate(verticalDirection * Time.deltaTime * speed);
+            Debug.Log(verticalDirection);
+        }
+
+        // Move Temoc when player falls
+        GameObject characterModel = GameObject.Find("Player/Ch42_nonPBR@Standard Run").gameObject;
+        Animator animator = characterModel.GetComponent<Animator>();
+        string current_animation = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        if (current_animation.Equals("Stumble Backwards"))
+        {
+            if (transform.position.z - playerPosition.position.z < gameOverGap)
+            {
+                transform.Translate(Vector3.forward * Time.deltaTime * speed);
+            }
+
+            if (transform.position.y > playerGroundYPos + verticalGap)
+            {
+                transform.Translate(Vector3.down * Time.deltaTime * speed);
+            }
         }
 
         // Make Temoc's speed always slightly faster than the player's (so Temoc won't fall behind)
-        speed = playerMovement.moveSpeed * 2f;
+        speed = playerMovement.moveSpeed * 1.3f;
     }
 }
