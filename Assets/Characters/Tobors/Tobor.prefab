@@ -48,8 +48,12 @@ GameObject:
   - component: {fileID: 1031820425107707805}
   - component: {fileID: 137048261955150881}
   - component: {fileID: 6699998520785015101}
+<<<<<<< Updated upstream:Assets/Characters/Tobors/Tobor.prefab
   - component: {fileID: 3664715445114931022}
   - component: {fileID: 2434364911986886138}
+=======
+  - component: {fileID: 4578744820663965975}
+>>>>>>> Stashed changes:Assets/Characters/Tobor/Tobor.prefab
   m_Layer: 0
   m_Name: Tobor
   m_TagString: Respawn
@@ -166,7 +170,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toborSpeed: 10
+<<<<<<< Updated upstream:Assets/Characters/Tobors/Tobor.prefab
 --- !u!114 &3664715445114931022
+=======
+--- !u!114 &4578744820663965975
+>>>>>>> Stashed changes:Assets/Characters/Tobor/Tobor.prefab
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452a31553972db447b106950937951c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream:Assets/Characters/Tobors/Tobor.prefab
   levelControl: {fileID: 0}
   LargeThump: {fileID: 0}
   reaction: {fileID: 0}
@@ -194,6 +203,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000007, y: 2.000001, z: 1.4}
   m_Center: {x: 0, y: 0, z: 0.2}
+=======
+  player: {fileID: 0}
+  characterModel: {fileID: 0}
+  mainCamera: {fileID: 0}
+>>>>>>> Stashed changes:Assets/Characters/Tobor/Tobor.prefab
 --- !u!1001 &1031820424570444029
 PrefabInstance:
   m_ObjectHideFlags: 0
