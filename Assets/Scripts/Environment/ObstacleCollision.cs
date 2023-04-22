@@ -11,6 +11,8 @@ public class ObstacleCollision : MonoBehaviour
     private GameObject mainCamera;
     private float playerGroundYPos;
     public GameObject levelControl;
+    public AudioSource LargeThump;
+    public AudioSource reaction;
 
     void Start()
     {
@@ -28,6 +30,7 @@ public class ObstacleCollision : MonoBehaviour
             // Prevent collision from triggering infinitely
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
 
+
             // Make player stop and fall over
             player.GetComponent<PlayerMove>().enabled = false;
             characterModel.GetComponent<Animator>().Play("Stumble Backwards");
@@ -40,6 +43,9 @@ public class ObstacleCollision : MonoBehaviour
 
             mainCamera.GetComponent<Animator>().enabled = true;
             levelControl.GetComponent<EndRunSequence>().enabled = true;
+
+            LargeThump.Play();
+            reaction.Play();
         }
     }
 }
