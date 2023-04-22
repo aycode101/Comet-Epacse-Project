@@ -23,11 +23,16 @@ public class WaterNozzleScale : MonoBehaviour
 
         // changes scale of water obj to constantly go up and down
         // TODO: have it to change scale at random times + slower speeds too?
+      //StartCoroutine(TimedScaling());
         if (this.gameObject.transform.localScale.y < 0.1f || this.gameObject.transform.localScale.y > 1.0f)
         {
             scaleChange = -scaleChange;
             positionChange = -positionChange;
-            //WaitForSeconds(3);
+          //StartCoroutine(TimedScaling());
         }
+    }
+    IEnumerator TimedScaling() 
+    {
+        yield return new WaitForSeconds(10);
     }
 }
