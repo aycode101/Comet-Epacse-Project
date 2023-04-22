@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 // NOTE: obstacles need a Box Collider component
@@ -82,6 +83,10 @@ public class QueenToborCollision : MonoBehaviour
         canvas.transform.Find("PuzzlePrompt").gameObject.SetActive(true);
         canvas.transform.Find("PuzzleWord").gameObject.SetActive(true);
         canvas.transform.Find("PuzzleInputField").gameObject.SetActive(true);
+
+        canvas.transform.Find("PuzzleInputField").GetComponent<TMPro.TMP_InputField>().Select(); 
+        canvas.transform.Find("PuzzleInputField").GetComponent<TMPro.TMP_InputField>().text = "";
+
         GameObject.Find("Canvas/PuzzleWord").GetComponent<TMPro.TextMeshProUGUI>().text = "" + word;
 
         yield return null;

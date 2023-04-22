@@ -48,7 +48,6 @@ public class FollowPlayer : MonoBehaviour
         if ((verticalDistance > verticalGap + 0.05) || (verticalDistance < verticalGap - 0.05))
         {
             transform.Translate(verticalDirection * Time.deltaTime * speed);
-            Debug.Log(verticalDirection);
         }
 
         // Move Temoc when player falls
