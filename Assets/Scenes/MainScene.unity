@@ -3590,7 +3590,7 @@ GameObject:
   - component: {fileID: 536086869}
   - component: {fileID: 536086870}
   m_Layer: 0
-  m_Name: FizzleSound
+  m_Name: Fizzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3609,7 +3609,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1446330918}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &536086870
 AudioSource:
@@ -6472,7 +6472,7 @@ GameObject:
   - component: {fileID: 894981981}
   - component: {fileID: 894981982}
   m_Layer: 0
-  m_Name: Evil Laugh
+  m_Name: EvilLaugh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6491,7 +6491,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1446330918}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &894981982
 AudioSource:
@@ -7949,8 +7949,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelControl: {fileID: 1446330916}
-  LargeThump: {fileID: 2109047730}
-  reaction: {fileID: 894981982}
+  thump: {fileID: 0}
+  fizzle: {fileID: 0}
+  evilLaugh: {fileID: 0}
 --- !u!65 &1080810779
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10223,8 +10224,8 @@ Transform:
   m_Children:
   - {fileID: 1554941329}
   - {fileID: 2109047729}
-  - {fileID: 894981981}
   - {fileID: 536086869}
+  - {fileID: 894981981}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14718,7 +14719,7 @@ GameObject:
   - component: {fileID: 2109047729}
   - component: {fileID: 2109047730}
   m_Layer: 0
-  m_Name: LargeThump
+  m_Name: Thump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

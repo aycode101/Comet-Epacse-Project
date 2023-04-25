@@ -52,7 +52,7 @@ GameObject:
   - component: {fileID: 2434364911986886138}
   m_Layer: 0
   m_Name: Tobor
-  m_TagString: Respawn
+  m_TagString: Tobor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,6 +181,7 @@ MonoBehaviour:
   levelControl: {fileID: 0}
   LargeThump: {fileID: 0}
   reaction: {fileID: 0}
+  test: {fileID: 0}
 --- !u!65 &2434364911986886138
 BoxCollider:
   m_ObjectHideFlags: 0

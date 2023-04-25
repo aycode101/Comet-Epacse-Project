@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class CollectCoin : MonoBehaviour
 {
-    public AudioSource coinFX;
+    public AudioSource coinDing;
 
+    void Start()
+    {
+        coinDing = GameObject.Find("LevelControl/CoinCollect").GetComponent<AudioSource>();
+    }
     void OnTriggerEnter(Collider other)
     {
         // Only execute if collided with Player object (has tag "Player")
         if (other.gameObject.tag == "Player")
         {
-            coinFX.Play();
+            coinDing.Play();
             CollectableControl.coinCount += 1;
 
             this.gameObject.SetActive(false);

@@ -60,7 +60,6 @@ public class QueenToborCollision : MonoBehaviour
     private bool InputIsCorrect()
     {
         string input = canvas.transform.Find("PuzzleInputField").GetComponent<TMPro.TMP_InputField>().text;
-        Debug.Log("input = " + input + ". Anadrome = " + anadrome);
         return String.Equals(input, anadrome, StringComparison.InvariantCultureIgnoreCase);
     }
 

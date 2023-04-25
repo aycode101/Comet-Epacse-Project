@@ -11,8 +11,12 @@ public class ObstacleCollision : MonoBehaviour
     private GameObject mainCamera;
     private float playerGroundYPos;
     public GameObject levelControl;
-    public AudioSource LargeThump;
-    public AudioSource reaction;
+
+    public AudioSource thump;
+    public AudioSource fizzle;
+    public AudioSource evilLaugh;
+
+    private bool collided = false;
 
     void Start()
     {
@@ -20,16 +24,22 @@ public class ObstacleCollision : MonoBehaviour
         characterModel = player.transform.Find("Ch42_nonPBR@Standard Run").gameObject;
         mainCamera = player.transform.Find("Main Camera").gameObject;
         playerGroundYPos = player.transform.position.y;
+
+        thump = GameObject.Find("LevelControl/Thump").GetComponent<AudioSource>();
+        fizzle = GameObject.Find("LevelControl/Fizzle").GetComponent<AudioSource>();
+        evilLaugh = GameObject.Find("LevelControl/EvilLaugh").GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter(Collider other)
     {
         // Only execute if collided with Player object (has tag "Player")
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && collided == false)
         {
+            collided = true;
+
             // Prevent collision from triggering infinitely
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
-
+            this.gameObject.GetComponent<BoxCollider>().isTrigger = false;
 
             // Make player stop and fall over
             player.GetComponent<PlayerMove>().enabled = false;
@@ -44,8 +54,16 @@ public class ObstacleCollision : MonoBehaviour
             mainCamera.GetComponent<Animator>().enabled = true;
             levelControl.GetComponent<EndRunSequence>().enabled = true;
 
-            LargeThump.Play();
-            reaction.Play();
+            // Play collision SFXs
+            if (this.tag == "Tobor")
+            {
+                fizzle.Play();
+            }
+            else
+            {
+                thump.Play();
+            }
+            evilLaugh.Play();
         }
     }
 }
