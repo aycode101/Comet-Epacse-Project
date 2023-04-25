@@ -18,11 +18,12 @@ public class QueenToborCollision : MonoBehaviour
     private GameObject player;
     private GameObject characterModel;
     private float playerGroundYPos;
+
     private GameObject canvas;
     private float width;
 
-    private static string word;
-    private static string anadrome;
+    private string word;
+    private string anadrome;
 
     void Start()
     {
@@ -34,7 +35,7 @@ public class QueenToborCollision : MonoBehaviour
 
         // Generate word: txt file with a list of words to randomly choose from
         string[] words = Regex.Split(wordFile.text, "\n");
-        word = words[Random.Range(0, words.Length)].ToUpper().TrimEnd('\r', '\n', ' '); ;
+        word = words[Random.Range(0, words.Length)].ToUpper().TrimEnd();
 
         // Compute anadrome of word
         char[] charArr = word.ToCharArray();
@@ -59,6 +60,7 @@ public class QueenToborCollision : MonoBehaviour
     private bool InputIsCorrect()
     {
         string input = canvas.transform.Find("PuzzleInputField").GetComponent<TMPro.TMP_InputField>().text;
+        Debug.Log("input = " + input + ". Anadrome = " + anadrome);
         return String.Equals(input, anadrome, StringComparison.InvariantCultureIgnoreCase);
     }
 
@@ -130,12 +132,5 @@ public class QueenToborCollision : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         Destroy(gameObject);
-        // If QueenTobors are generated through script:
-        /*
-         * if (transform.name == "QueenTobor(Clone)")
-        {
-            Destroy(gameObject);
-        }
-         */
     }
 }
