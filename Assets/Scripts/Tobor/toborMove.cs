@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToborScript : MonoBehaviour
+public class toborMove : MonoBehaviour
 {
     private bool right;
     public float toborSpeed = 70;
-    //private bool move = true;
 
-    // Start is called before the first frame update
     void Start()
     {
         if ((this.gameObject.transform.position.x - LevelBoundary.leftSide) < (LevelBoundary.rightSide - this.gameObject.transform.position.x))
@@ -21,13 +19,8 @@ public class ToborScript : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //if(!(transform.position.x > LevelBoundary.leftSide) || !(transform.position.x < LevelBoundary.rightSide))
-        //{
-        //    right = !right;
-        //}
 
         if (transform.position.x < LevelBoundary.leftSide)
         {
