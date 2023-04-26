@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 10;
+    public float jumpSpeed = 10;
     public float leftRightSpeed = 50;
     public bool isJumping = false;
     private GameObject characterModel;
@@ -45,7 +46,7 @@ public class PlayerMove : MonoBehaviour
         if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) && !isJumping)
         {
             isJumping = true;
-            jumpVelocity = moveSpeed;
+            jumpVelocity = jumpSpeed*1.2f;
             characterModel.GetComponent<Animator>().Play("Jump");
         }
 
