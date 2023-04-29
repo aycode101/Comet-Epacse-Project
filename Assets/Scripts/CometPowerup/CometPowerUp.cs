@@ -5,6 +5,7 @@ using UnityEngine;
 public class CometPowerUp : MonoBehaviour
 {
     public int powerUpTime = 5;
+    private float speedIncrease = 1.5f;
     PlayerMove prevSpeed;
     GameObject player;
     
@@ -22,7 +23,7 @@ public class CometPowerUp : MonoBehaviour
             player = other.gameObject;
             //get the player script to access and modify the move speed
             prevSpeed = player.GetComponent<PlayerMove>();
-            prevSpeed.moveSpeed *= 1.5f;
+            prevSpeed.moveSpeed *= speedIncrease;
 
             //add trail to the player
             player.transform.GetChild(2).gameObject.SetActive(true);
@@ -38,6 +39,6 @@ public class CometPowerUp : MonoBehaviour
         //hide the trail
         player.transform.GetChild(2).gameObject.SetActive(false);
         //restore the previous speed
-        prevSpeed.moveSpeed /= 2;
+        prevSpeed.moveSpeed /= speedIncrease;
     }
 }
