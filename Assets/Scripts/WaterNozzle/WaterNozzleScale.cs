@@ -5,7 +5,7 @@ using UnityEngine;
 public class WaterNozzleScale : MonoBehaviour
 {
     private Vector3 scaleChange, positionChange;
-    public float speed = 10;
+    private float speed = 10;
     bool goingUp = false;
 
     void Awake()
@@ -20,12 +20,12 @@ public class WaterNozzleScale : MonoBehaviour
     {
         while (true)
         {
-            if (transform.localPosition.y <= -7.85f)
+            if (transform.localPosition.y <= -8.1f)
             {
                 goingUp = true;
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(0.5f);
             }
-            if (transform.localPosition.y >= -3.2f)
+            if (transform.localPosition.y >= -3.4f)
             {
                 goingUp = false;
             }
