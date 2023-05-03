@@ -14,11 +14,11 @@ public class GoToHowToPlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void DisplayInstructions()
     {
         SceneManager.LoadScene(2);
     }
+
 }
