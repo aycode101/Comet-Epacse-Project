@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        jumpVelocity += -30f * Time.deltaTime; //increased the gravity so that the player falls faster
+        jumpVelocity += -27f * Time.deltaTime; //increased the gravity so that the player falls faster
         
         if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) && !isJumping)
         {
