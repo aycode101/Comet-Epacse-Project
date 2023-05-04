@@ -8,10 +8,12 @@ public class CometPowerUp : MonoBehaviour
     private float speedIncrease = 1.5f;
     PlayerMove prevSpeed;
     GameObject player;
+    public AudioSource woosh;
     
     // Start is called before the first frame update
     void Start()
     {
+        woosh = GameObject.Find("LevelControl/Woosh").GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -21,6 +23,7 @@ public class CometPowerUp : MonoBehaviour
         {            
             //get the game object
             player = other.gameObject;
+            woosh.Play();
             //get the player script to access and modify the move speed
             prevSpeed = player.GetComponent<PlayerMove>();
             prevSpeed.moveSpeed *= speedIncrease;
