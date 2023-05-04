@@ -12,8 +12,8 @@ public class FollowPlayer : MonoBehaviour
     private float playerGroundYPos;
     private float speed;
 
-    private float horizontalGap = 3f;
-    private float verticalGap = -.3f;
+    private float horizontalGap = 6f;
+    private float verticalGap = .7f;
     private float gameOverGap = 1.5f;
     private Vector3 horizontalDirection;
     private Vector3 verticalDirection;
