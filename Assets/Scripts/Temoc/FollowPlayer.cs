@@ -16,7 +16,6 @@ public class FollowPlayer : MonoBehaviour
     private float verticalGap = .7f;
     private float gameOverGap = 3f;
     private Vector3 horizontalDirection;
-    private Vector3 verticalDirection;
     private float horizontalDistance;
     private float verticalDistance;
 
@@ -37,24 +36,25 @@ public class FollowPlayer : MonoBehaviour
             return;
         }
 
-        // Get directions from Temoc to the player
+        // Maintain horizontal distance between Temoc and the player
         horizontalDirection = (playerPosition.position - transform.position).normalized;
-        verticalDirection = horizontalDirection; 
         horizontalDirection.y = 0;
-        verticalDirection.x = 0;
-        verticalDirection.z = 0;
 
-        // Maintain constant gap between Temoc and the player
         horizontalDistance = Math.Abs(transform.position.x - playerPosition.position.x) + Math.Abs(transform.position.z - playerPosition.position.z);
         if (horizontalDistance > horizontalGap)
         {
             transform.Translate(horizontalDirection * Time.deltaTime * speed);
         }
 
+        // Maintain vertical distance between Temoc and the player
         verticalDistance = transform.position.y - playerPosition.position.y;
-        if ((verticalDistance > verticalGap + 0.05) || (verticalDistance < verticalGap - 0.05))
+        if (verticalDistance > verticalGap + 0.05)
         {
-            transform.Translate(verticalDirection * Time.deltaTime * speed);
+            transform.Translate(Vector3.down * Time.deltaTime * 6);
+        }
+        if (verticalDistance < verticalGap - 0.05)
+        {
+            transform.Translate(Vector3.up * Time.deltaTime * 6);
         }
 
         // Move Temoc when player falls
@@ -74,7 +74,7 @@ public class FollowPlayer : MonoBehaviour
 
     private IEnumerator gameOver()
     {
-
+        // Move Temoc in front of player
         while (transform.position.z - playerPosition.position.z < gameOverGap)
         {
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
@@ -89,9 +89,28 @@ public class FollowPlayer : MonoBehaviour
 
         yield return null;
 
-        while (true)
+        // Turn Temoc around
+        int totalRotate = 0;
+        int degrees = 15;
+        while (totalRotate < 180)
         {
-            transform.Rotate(0f, 10f, 0f, Space.World);
+            
+            transform.Rotate(0f, degrees, 0f, Space.World);
+            totalRotate += degrees;
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        // Temoc moves toward player
+        speed /= 4;
+        horizontalDirection = (playerPosition.position - transform.position).normalized;
+        horizontalDirection.y = 0;
+        horizontalDistance = Math.Abs(transform.position.x - playerPosition.position.x) + Math.Abs(transform.position.z - playerPosition.position.z);
+        while (horizontalDistance > 0.1)
+        {
+            transform.Translate(-horizontalDirection * Time.deltaTime * speed);
+            horizontalDirection = (playerPosition.position - transform.position).normalized;
+            horizontalDirection.y = 0;
+            horizontalDistance = Math.Abs(transform.position.x - playerPosition.position.x) + Math.Abs(transform.position.z - playerPosition.position.z);
             yield return new WaitForSeconds(0.01f);
         }
     }
