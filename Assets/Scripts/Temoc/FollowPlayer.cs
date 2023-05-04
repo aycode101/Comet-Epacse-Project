@@ -14,11 +14,13 @@ public class FollowPlayer : MonoBehaviour
 
     private float horizontalGap = 6f;
     private float verticalGap = .7f;
-    private float gameOverGap = 1.5f;
+    private float gameOverGap = 3f;
     private Vector3 horizontalDirection;
     private Vector3 verticalDirection;
     private float horizontalDistance;
     private float verticalDistance;
+
+    private bool isGameOver = false;
 
     void Start()
     {
@@ -30,6 +32,11 @@ public class FollowPlayer : MonoBehaviour
 
     void Update()
     {
+        if (isGameOver)
+        {
+            return;
+        }
+
         // Get directions from Temoc to the player
         horizontalDirection = (playerPosition.position - transform.position).normalized;
         verticalDirection = horizontalDirection; 
@@ -56,18 +63,36 @@ public class FollowPlayer : MonoBehaviour
         string current_animation = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
         if (current_animation.Equals("Stumble Backwards"))
         {
-            if (transform.position.z - playerPosition.position.z < gameOverGap)
-            {
-                transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            }
-
-            if (transform.position.y > playerGroundYPos + verticalGap)
-            {
-                transform.Translate(Vector3.down * Time.deltaTime * speed);
-            }
+            isGameOver = true;
+            
+            StartCoroutine(gameOver());
         }
 
         // Make Temoc's speed always slightly faster than the player's (so Temoc won't fall behind)
         speed = playerMovement.moveSpeed * 1.3f;
+    }
+
+    private IEnumerator gameOver()
+    {
+
+        while (transform.position.z - playerPosition.position.z < gameOverGap)
+        {
+            transform.Translate(Vector3.forward * Time.deltaTime * speed);
+            yield return new WaitForSeconds(0.001f);
+        }
+
+        while (transform.position.y > playerGroundYPos + verticalGap)
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * speed);
+            yield return new WaitForSeconds(0.001f);
+        }
+
+        yield return null;
+
+        while (true)
+        {
+            transform.Rotate(0f, 10f, 0f, Space.World);
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 }
