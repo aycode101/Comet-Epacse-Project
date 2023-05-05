@@ -25,6 +25,8 @@ public class ObstacleCollision : MonoBehaviour
         mainCamera = player.transform.Find("Main Camera").gameObject;
         playerGroundYPos = player.transform.position.y;
 
+        levelControl = GameObject.Find("LevelControl").gameObject;
+
         thump = GameObject.Find("LevelControl/Thump").GetComponent<AudioSource>();
         fizzle = GameObject.Find("LevelControl/Fizzle").GetComponent<AudioSource>();
         evilLaugh = GameObject.Find("LevelControl/EvilLaugh").GetComponent<AudioSource>();
